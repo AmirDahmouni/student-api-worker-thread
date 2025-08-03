@@ -47,15 +47,18 @@ jobs:
     needs: build-and-push-docker
 
     steps:
-      - name: Deploy to Render using API
+      - name: Trigger Render Blueprint Deploy
         run: |
-          echo "Triggering Render deploy..."
-          RESPONSE=$(curl -s -o response.txt -w "%{http_code}" -X POST https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }} \
-            -H "Authorization: Bearer ${{ secrets.RENDER_NODE_API_KEY }}" \
+          echo "Deploying render.yaml (Blueprint)..."
+          RESPONSE=$(curl -s -o response.txt -w "%{http_code}" -X POST https://api.render.com/v1/blueprints \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" \
             -d '{
-              "dockerImage": "${{ secrets.DOCKER_USERNAME }}/nodejs-api:${{ github.sha }}",
-              "dockerImageVersion": "${{ github.sha }}"
+                "repository": {
+                "owner": "${{ github.repository_owner }}",
+                "name": "${{ github.event.repository.name }}",
+                "branch": "master"
+              }
             }')
 
           if [ "$RESPONSE" -ne 200 ]; then
@@ -64,5 +67,5 @@ jobs:
             cat response.txt
             exit 1
           else
-            echo "✅ Render deployment triggered successfully!"
+            echo "✅ Render Blueprint deployment triggered successfully!"
           fi

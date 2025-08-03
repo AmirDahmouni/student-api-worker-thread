@@ -1,0 +1,22 @@
+databases:
+  - name: app-db
+    databaseName: appdb
+    user: postgres
+
+services:
+  - type: web
+    name: nodejs-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: app-db
+          property: connectionString
+      - key: POSTGRES_USER
+        value: postgres
+      - key: POSTGRES_PASSWORD
+        value: postgres
+      - key: POSTGRES_DB
+        value: appdb
