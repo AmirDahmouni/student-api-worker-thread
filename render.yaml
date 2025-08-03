@@ -1,7 +1,7 @@
 databases:
   - name: app-db
     databaseName: appdb
-    user: postgres
+    user: appuser
 
 services:
   - type: web
@@ -15,8 +15,8 @@ services:
           name: app-db
           property: connectionString
       - key: POSTGRES_USER
-        value: postgres
+        value: appuser
       - key: POSTGRES_PASSWORD
-        value: postgres
+        generateValue: true  
       - key: POSTGRES_DB
         value: appdb
