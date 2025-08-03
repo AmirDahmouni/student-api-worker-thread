@@ -23,11 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          echo "Waiting for DB..."
-          until pg_isready -h localhost -p 5432; do sleep 1; done
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
