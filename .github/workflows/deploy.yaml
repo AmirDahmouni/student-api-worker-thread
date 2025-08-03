@@ -50,7 +50,7 @@ jobs:
       - name: Trigger Render Blueprint Deploy
         run: |
           echo "Deploying render.yaml (Blueprint)..."
-          RESPONSE=$(curl -s -o response.txt -w "%{http_code}" -X POST https://api.render.com/v1/blueprints \
+          RESPONSE=$(curl -s -o response.txt -w "%{http_code}" -X POST https://api.render.com/blueprints \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" \
             -d '{
