@@ -6,14 +6,13 @@ WORKDIR /app
 # Copier package.json + package-lock.json
 COPY package*.json ./
 
-# Installer dépendances (pas les dev, optionnel)
-RUN npm install
+# Installer dépendances
+RUN npm ci
 
-# Copier tout le code source TS (src, tests, tsconfig etc.)
 COPY . .
 
 # Compiler le code TS en JS dans /app/dist
-RUN npm run build
+RUN npx tsc
 
 # Étape 2: image finale
 FROM node:24.0.0-alpine
@@ -23,11 +22,12 @@ WORKDIR /app
 # Copier seulement le dossier compilé dist + package.json (pour prod deps)
 COPY --from=builder /app/dist ./
 COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/.env ./
 
-EXPOSE 3000
+
+EXPOSE 8080
 
 # Installer uniquement les dépendances de prod
-RUN npm install --production
+RUN npm install
 
-# Commande pour lancer l’app (adapter si besoin)
-CMD ["node", "src/server.js"]
+CMD ["npm", "run", "start"]

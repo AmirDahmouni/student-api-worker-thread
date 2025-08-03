@@ -1,5 +1,6 @@
 import http from 'http';
 import { runTask } from './workerPool';
+import 'dotenv/config'
 
 const server = http.createServer((req, res) => {
   if (req.url === '/create-student' && req.method === 'POST') {
@@ -30,6 +31,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(8080, () => {
-  console.log('Server running on port 8080');
+server.listen(process.env.PORT, () => {
+  console.log('Server running on port ', process.env.PORT);
 });

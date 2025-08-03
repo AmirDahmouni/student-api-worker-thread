@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  api:
+    image: $DOCKER_USERNAME/nodejs-api:latest  # ou build: . pour dev local
+    build: .  # facultatif, utile si tu ne veux pas pousser à DockerHub
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/appdb
+
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

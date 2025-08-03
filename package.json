@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "node dist/src/server.js",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "dotenv": "^17.2.1",
     "pg": "^8.16.3"
   }
 }

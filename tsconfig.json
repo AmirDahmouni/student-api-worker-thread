@@ -6,7 +6,7 @@
     "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
-    "types": ["node", "jest"]
+    "types": ["node","jest"]
   },
-  "include": ["src", "tests"],
+  "include": ["src","tests"]
 }
