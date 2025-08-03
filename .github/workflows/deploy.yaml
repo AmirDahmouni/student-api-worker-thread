@@ -51,7 +51,7 @@ jobs:
         run: |
           echo "Triggering Render deploy..."
           RESPONSE=$(curl -s -o response.txt -w "%{http_code}" -X POST https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploy \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_NODE_API_KEY }}" \
             -H "Content-Type: application/json" \
             -d '{
               "dockerImage": "${{ secrets.DOCKER_USERNAME }}/nodejs-api:${{ github.sha }}",
